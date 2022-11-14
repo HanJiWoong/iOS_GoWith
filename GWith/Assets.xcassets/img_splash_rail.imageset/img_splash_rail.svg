@@ -1,0 +1,25 @@
+<svg width="112" height="844" viewBox="0 0 112 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="35" y="74" width="40" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="274" width="50" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="574" width="70" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="474" width="40" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="774" width="40" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="374" width="60" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="674" width="30" height="20" rx="10" fill="#3174F5"/>
+<rect x="35" y="174" width="77" height="20" rx="10" fill="#3174F5"/>
+<g opacity="0.1">
+<rect x="14" y="-46" width="2" height="910" fill="white"/>
+<circle cx="15" cy="84" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="184" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="284" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="384" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="484" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="584" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="684" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="784" r="5" fill="#2F76FF" stroke="white" stroke-width="2"/>
+</g>
+<circle cx="15" cy="84" r="5" fill="#266BF0" stroke="white" stroke-width="2"/>
+<circle cx="15" cy="184" r="5" fill="#286DF3" stroke="white" stroke-width="2"/>
+<rect x="6.08612" y="209.659" width="16.2581" height="11.7419" fill="#2A6EF3"/>
+<path d="M2.77776 230.096V231.096H3.77776H4.2222V231.502C4.2222 232.149 4.48636 232.764 4.94759 233.213C5.40793 233.662 6.02677 233.909 6.66665 233.909H8.11109C8.75097 233.909 9.36981 233.662 9.83014 233.213C10.2914 232.764 10.5555 232.149 10.5555 231.502V231.096H20.1111V231.502C20.1111 232.149 20.3752 232.764 20.8365 233.213C21.2968 233.662 21.9157 233.909 22.5555 233.909H24C24.6399 233.909 25.2587 233.662 25.719 233.213C26.1803 232.764 26.4444 232.149 26.4444 231.502V231.096H26.8889H27.8889V230.096V219.842H28.3333H29.3333V218.842V213.216V212.216H28.3333H27.8889V208.996C27.8889 207.976 27.4725 207.003 26.7404 206.29C26.0092 205.578 25.023 205.182 24 205.182H6.66665C5.64367 205.182 4.65744 205.578 3.92622 206.29C3.1941 207.003 2.77776 207.976 2.77776 208.996V212.216H2.33331H1.33331V213.216V218.842V219.842H2.33331H2.77776V230.096ZM23 220.656H7.66665V209.996H23V220.656ZM11.4444 226.282H7.66665V225.469H11.4444V226.282ZM23 226.282H19.2222V225.469H23V226.282Z" fill="white" stroke="#2A6EF3" stroke-width="2"/>
+</svg>
