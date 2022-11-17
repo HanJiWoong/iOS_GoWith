@@ -21,6 +21,8 @@ class ViewController: UIViewController {
         preferences.javaScriptCanOpenWindowsAutomatically = true
         
         let contentController = WKUserContentController()
+        contentController.add(self, name: "WebViewJavascriptBridge")
+        contentController.add(self, name: "requestNfcLaunchFromWeb")
         
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
@@ -43,17 +45,21 @@ class ViewController: UIViewController {
             }
         })
         
-//        let mainWebView = WKWebView(frame: mMainView.bounds, configuration: configuration)
-        let mainWebView = WKWebViewWarmUper.shared.dequeue()
+        
+        let mainWebView = WKWebView(frame: mMainView.bounds, configuration: configuration)
+//        let mainWebView = WKWebViewWarmUper.shared.dequeue()
+        mainWebView.allowsBackForwardNavigationGestures = true
         mainWebView.uiDelegate = self
         mainWebView.navigationDelegate = self
+        
         mainWebView.scrollView.bounces = false
+        
         
         
         mMainView.addSubview(mainWebView)
         setAutoLayout(from: mainWebView, to: mMainView)
         
-        let components = URLComponents(string: "https://app.gwith.co.kr")
+        let components = URLComponents(string: "https://dev-app.gwith.co.kr")
         
         let request = URLRequest(url: (components?.url)!)
         
@@ -89,7 +95,7 @@ class ViewController: UIViewController {
 //        let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
 //        webView.evaluateJavaScript(jsString, completionHandler: nil)
 //     }
-
+    
 }
 
 extension ViewController:WKNavigationDelegate {
@@ -98,22 +104,70 @@ extension ViewController:WKNavigationDelegate {
         decisionHandler(.allow)
     }
     
-    
-    
-    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print("didFinish")
+        
+        webView.evaluateJavaScript("window.IOSInterface.testInterface()", completionHandler: {(result, error) in
+            if let result = result {
+                print(result)
+            }
+        })
+    }
 }
 
 extension ViewController:WKUIDelegate {
-    public func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
-        
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { (action) in
+            completionHandler()
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { (action) in
+            completionHandler(true)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { (action) in
+            completionHandler(false)
+        }
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+        let alert = UIAlertController(title: "", message: prompt, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { (action) in
+            if let text = alert.textFields?.first?.text {
+                completionHandler(text)
+            } else {
+                completionHandler(defaultText)
+            }
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
     
 }
 
 extension ViewController:WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        print(message.name)
+        
+        if(message.name == "requestNfcLaunchFromWeb"){
+            let body = message.body
+            print(body)
+//            webView.evaluateJavaScript("javascript:WebViewJavascriptBridge._handleMessageFromNative()", completionHandler: {(result, error) in
+//                if let result = result {
+//                    print(result)
+//                }
+//            })
+
+        }
     }
+    
 }
 
