@@ -7,4 +7,10 @@ target 'GWith' do
 
   # Pods for GWith
   pod 'WebViewWarmUper'
+  
+  # Firebase
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseMessaging'
 end

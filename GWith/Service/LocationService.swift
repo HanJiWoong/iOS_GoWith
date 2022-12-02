@@ -18,16 +18,18 @@ class LocationService:NSObject, CLLocationManagerDelegate {
     var locationManager:CLLocationManager!
     var delegate:LocationServiceDelegate? = nil
     
-    private override init() {
-        super.init()
-        
-        if(CLLocationManager.locationServicesEnabled()) {
+    func locationServiceStart() {
+        if CLLocationManager.locationServicesEnabled() {
             self.locationManager = CLLocationManager()
             self.locationManager.delegate = self
             self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
             self.locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
         }
+    }
+    
+    func locationServicesEnabled() async -> Bool {
+        CLLocationManager.locationServicesEnabled()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

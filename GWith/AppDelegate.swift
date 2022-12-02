@@ -7,15 +7,29 @@
 
 import UIKit
 import WebViewWarmUper
+import FirebaseCore
+import FirebaseMessaging
+import NotificationCenter
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         WKWebViewWarmUper.shared.prepare()
+        FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
+
+        UNUserNotificationCenter.current().delegate = self
+
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
+            if granted {
+                print("알림 등록이 완료되었습니다.")
+            }
+        }
+        application.registerForRemoteNotifications()
         
         return true
     }
@@ -37,3 +51,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate:UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let userInfo = response.notification.request.content.userInfo
+
+        onBroadcastNoti(userInfo: userInfo)
+        
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+
+       // With swizzling disabled you must let Messaging know about the message, for Analytics
+       // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+//           // Print message ID.
+//           if let messageID = userInfo[gcmMessageIDKey] {
+//             print("Message ID: \(messageID)")
+//           }
+
+        onBroadcastNoti(userInfo: userInfo)
+    
+       // Print full message.
+       print(userInfo)
+
+       // Change this to your preferred presentation option
+       completionHandler([])
+    }
+    
+    func onBroadcastNoti(userInfo:[AnyHashable : Any]) {
+        let interfaceName = userInfo[PushNotiDataKeys.NotiKeyFuncName] as? String
+        let alarmType = userInfo[PushNotiDataKeys.NotiKeyAlarmType] as? String
+        let location = userInfo[PushNotiDataKeys.NotiKeyLocation] as? String
+        let memberName = userInfo[PushNotiDataKeys.NotiKeyMemberName] as? String
+        let rideManagerPhone = userInfo[PushNotiDataKeys.NotiKeyRideManagerPhone] as? String
+        let lineResultId = userInfo[PushNotiDataKeys.NotiKeyLineResultId] as? String
+        
+        let notiData = PushNotiDataModel(interfaceName: interfaceName, alarmType: alarmType, locationName: location, memberName: memberName, rideManagerPhone: rideManagerPhone,lineResultId: lineResultId)
+        
+        NotificationCenter.default.post(name: Notification.Name(NotificationName.NotificationNamePushData), object: notiData)
+        
+        
+    }
+    
+}
+
+extension AppDelegate:MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("FCM Token :\(fcmToken ?? "")")
+        UserDefaults.standard.set(fcmToken, forKey: StoreKeys.KeysFCMToken)
+    }
+}
