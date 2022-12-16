@@ -18,6 +18,8 @@ class LocationService:NSObject, CLLocationManagerDelegate {
     var locationManager:CLLocationManager!
     var delegate:LocationServiceDelegate? = nil
     
+    // location servic start
+    // LocationService.shared.locationServiceStart()
     func locationServiceStart() {
         if CLLocationManager.locationServicesEnabled() {
             self.locationManager = CLLocationManager()
@@ -25,6 +27,14 @@ class LocationService:NSObject, CLLocationManagerDelegate {
             self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
             self.locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
+        }
+    }
+    
+    // location service stop
+    // LocationService.shared.locationServiceStop()
+    func locationServiceStop() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.stopUpdatingLocation()
         }
     }
     

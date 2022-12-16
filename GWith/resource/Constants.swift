@@ -9,6 +9,7 @@ import Foundation
 
 struct StoreKeys {
     static let KeysFCMToken = "FCMToken"
+    static let KeysMemberID = "MemberId"
 }
 
 struct PushNotiDataKeys {
@@ -39,4 +40,7 @@ struct JSRequestInterfaceName {
     static let FCMToken = "requestFCMToken"
     static let TMap = "requestTmapLaunchFromWeb"
     static let VersionInfo = "requestVersionInfoFromWeb"
+    static let PhoneCall = "requestPhoneCall"
+    static let BleBeaconTag = "requestBleBeaconTag"
+    static let MemberID = "recivedMemberId"
 }

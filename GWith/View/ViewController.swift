@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 import WebViewWarmUper
 import CoreLocation
+import CoreNFC
 
 class ViewController: UIViewController {
 
@@ -17,7 +18,7 @@ class ViewController: UIViewController {
     
     var mLocationSevice:LocationService = LocationService()
     var mCurrentLocation:CLLocation? = nil
-    
+        
     public func setAutoLayout(from:UIView, to: UIView) {
         from.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.init(item: from, attribute: .leading, relatedBy: .equal, toItem: to, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
@@ -30,6 +31,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+//        NFCService.shared.readyService(controller: self)
         
         NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: NSNotification.Name( NotificationName.NotificationNamePushData), object: nil)
         
@@ -46,6 +49,9 @@ class ViewController: UIViewController {
         contentController.add(self, name: JSRequestInterfaceName.FCMToken)
         contentController.add(self, name: JSRequestInterfaceName.TMap)
         contentController.add(self, name: JSRequestInterfaceName.VersionInfo)
+        contentController.add(self, name: JSRequestInterfaceName.PhoneCall)
+        contentController.add(self, name: JSRequestInterfaceName.BleBeaconTag)
+        contentController.add(self, name: JSRequestInterfaceName.MemberID)
         
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
@@ -66,6 +72,7 @@ class ViewController: UIViewController {
                 print("delete cache data")
             }
         })
+        
         
         
         mMainWebView = WKWebView(frame: mMainView.bounds, configuration: configuration)
@@ -222,19 +229,7 @@ extension ViewController:WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("didFinish")
-        
-        webView.evaluateJavaScript("window.IOSInterface.testInterface()", completionHandler: {(result, error) in
-            if let result = result {
-                print(result)
-            }
-        })
-        
-        webView.evaluateJavaScript("javascript:window.NativeInterface.currentNfcState(true)", completionHandler: {(result, error) in
-            if let result = result {
-                print(result)
-            }
-        })
+ 
     }
 }
 
@@ -281,6 +276,13 @@ extension ViewController:WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         
         switch(message.name) {
+        case JSRequestInterfaceName.MemberID:
+            print(message.body)
+            
+            let memberId = message.body
+            UserDefaults.standard.set(memberId, forKey: StoreKeys.KeysMemberID)
+            
+            break
         case JSRequestInterfaceName.NfcLaunch:
             
             break
@@ -371,31 +373,70 @@ extension ViewController:WKScriptMessageHandler {
                                                                 appVersionCode: build,
                                                                 appVersionName: version,
                                                                 splashID: "1234567890",
-                                                                fcmToken: t)                        
+                                                                fcmToken: t)
                         
                         
                         guard let versionData = try? JSONEncoder().encode(versionInfoModel) else { return }
                         let versionStr = String(decoding:versionData, as: UTF8.self)
                         
-//                        webView.evaluateJavaScript("window.IOSInterface.FCMToken(\'\(tokenStr)\')") { (result, error) in
-//                            if let result = result {
-//                                print(result)
-//                            } else {
-//                                print(error?.localizedDescription ?? "")
-//                            }
-//                        }
+                        webView.evaluateJavaScript("window.NativeInterface.versionInfo(\'\(versionStr)\')") { (result, error) in
+                            if let result = result {
+                                print(result)
+                            } else {
+                                print(error?.localizedDescription ?? "")
+                            }
+                        }
                     }
                 }
             }
             
             break
+        case JSRequestInterfaceName.PhoneCall :
+            print(message.body)
+            let phoneNum = message.body
+            
+            if let url = NSURL(string: "tel://\(phoneNum)") {
+                if UIApplication.shared.canOpenURL(url as URL) {
+                    UIApplication.shared.open(url as URL, options:[:], completionHandler: nil)
+                }
+            }
+                
+            break
+        case JSRequestInterfaceName.BleBeaconTag :
+            if let webView = mMainWebView {
+                
+                do {
+                    var state:BleStateModel?
+                                        
+                    if BleAdService.shared.mBleState == .poweredOn {
+                        state = .init(state: true)
+                    } else {
+                        state = .init(state:false)
+                    }
+                    
+                    guard let bleStateData = try? JSONEncoder().encode(state) else { return }
+                    let bleStateStr = String(decoding:bleStateData, as: UTF8.self)
+
+
+                    webView.evaluateJavaScript("window.NativeInterface.blueToothState(\'\(bleStateStr)\')", completionHandler: {(result, error) in
+                        if let result = result {
+                            print(result)
+                        }
+                        
+                        let memberId = UserDefaults.standard.value(forKey: StoreKeys.KeysMemberID)
+                        BleAdService.shared.StartService(memberId: memberId as! String)
+                    })
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                print("WebView Load Error")
+            }
+
+            break
         default :
             break
-        }
-        
-        if(message.name == JSRequestInterfaceName.NfcLaunch){
-            let body = message.body
-            print(body)
         }
                 
     }

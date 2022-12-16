@@ -14,6 +14,10 @@
 		D640D71A2939A7D3000CC8CC /* PushNotiDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D640D7192939A7D3000CC8CC /* PushNotiDataModel.swift */; };
 		D640D71C2939D9B1000CC8CC /* NotiJSInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D640D71B2939D9B1000CC8CC /* NotiJSInterface.swift */; };
 		D640D71E2939EC12000CC8CC /* VersionInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D640D71D2939EC12000CC8CC /* VersionInfoModel.swift */; };
+		D640D720293F0D01000CC8CC /* NFCTagReader.plist in Resources */ = {isa = PBXBuildFile; fileRef = D640D71F293F0D01000CC8CC /* NFCTagReader.plist */; };
+		D640D722293F197E000CC8CC /* NFCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D640D721293F197E000CC8CC /* NFCService.swift */; };
+		D640D72429406B11000CC8CC /* BleAdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D640D72329406B11000CC8CC /* BleAdService.swift */; };
+		D640D7262941CF53000CC8CC /* BleStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D640D7252941CF53000CC8CC /* BleStateModel.swift */; };
 		D6606FCC28D988940031CC99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6606FCB28D988940031CC99 /* AppDelegate.swift */; };
 		D6606FCE28D988940031CC99 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6606FCD28D988940031CC99 /* SceneDelegate.swift */; };
 		D6606FD028D988940031CC99 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6606FCF28D988940031CC99 /* ViewController.swift */; };
@@ -39,6 +43,10 @@
 		D640D7192939A7D3000CC8CC /* PushNotiDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotiDataModel.swift; sourceTree = "<group>"; };
 		D640D71B2939D9B1000CC8CC /* NotiJSInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiJSInterface.swift; sourceTree = "<group>"; };
 		D640D71D2939EC12000CC8CC /* VersionInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfoModel.swift; sourceTree = "<group>"; };
+		D640D71F293F0D01000CC8CC /* NFCTagReader.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NFCTagReader.plist; sourceTree = "<group>"; };
+		D640D721293F197E000CC8CC /* NFCService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCService.swift; sourceTree = "<group>"; };
+		D640D72329406B11000CC8CC /* BleAdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleAdService.swift; sourceTree = "<group>"; };
+		D640D7252941CF53000CC8CC /* BleStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleStateModel.swift; sourceTree = "<group>"; };
 		D6606FC828D988940031CC99 /* GWith.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GWith.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6606FCB28D988940031CC99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D6606FCD28D988940031CC99 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +139,7 @@
 				D6606FD428D988950031CC99 /* Assets.xcassets */,
 				D6606FD628D988950031CC99 /* LaunchScreen.storyboard */,
 				D640D717293738B8000CC8CC /* Constants.swift */,
+				D640D71F293F0D01000CC8CC /* NFCTagReader.plist */,
 			);
 			path = resource;
 			sourceTree = "<group>";
@@ -148,6 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				D6D76DB42925C834007C6495 /* LocationService.swift */,
+				D640D721293F197E000CC8CC /* NFCService.swift */,
+				D640D72329406B11000CC8CC /* BleAdService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -168,6 +179,7 @@
 				D640D7192939A7D3000CC8CC /* PushNotiDataModel.swift */,
 				D640D71B2939D9B1000CC8CC /* NotiJSInterface.swift */,
 				D640D71D2939EC12000CC8CC /* VersionInfoModel.swift */,
+				D640D7252941CF53000CC8CC /* BleStateModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -243,6 +255,7 @@
 			files = (
 				D6606FD828D988950031CC99 /* LaunchScreen.storyboard in Resources */,
 				D6606FD528D988950031CC99 /* Assets.xcassets in Resources */,
+				D640D720293F0D01000CC8CC /* NFCTagReader.plist in Resources */,
 				D6606FD328D988940031CC99 /* Main.storyboard in Resources */,
 				D6F9D71E292219D10009D7FC /* Lato-Bold.ttf in Resources */,
 				D6F9D720292219E20009D7FC /* NotoSansKR-Bold.otf in Resources */,
@@ -307,10 +320,13 @@
 				D6F9D72229222AED0009D7FC /* SplashViewController.swift in Sources */,
 				D6D76DBB292DBE46007C6495 /* LocationModel.swift in Sources */,
 				D640D71C2939D9B1000CC8CC /* NotiJSInterface.swift in Sources */,
+				D640D72429406B11000CC8CC /* BleAdService.swift in Sources */,
+				D640D7262941CF53000CC8CC /* BleStateModel.swift in Sources */,
 				D640D7162935AD7F000CC8CC /* FCMTokenModel.swift in Sources */,
 				D640D71A2939A7D3000CC8CC /* PushNotiDataModel.swift in Sources */,
 				D6D76DB82925D7FD007C6495 /* MainViewModel.swift in Sources */,
 				D640D718293738B8000CC8CC /* Constants.swift in Sources */,
+				D640D722293F197E000CC8CC /* NFCService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +487,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -504,6 +521,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

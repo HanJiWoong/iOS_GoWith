@@ -26,6 +26,18 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NFCReaderUsageDescription</key>
+	<string>승차 태그를 위해 NFC 기능이 필요합니다.</string>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<string>D2760000850101</string>
+	</array>
+	<key>com.apple.developer.nfc.readersession.felica.systemcodes</key>
+	<array>
+		<string>9000</string>
+	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>승차 태그를 위해 블루투스 기능이 필요합니다.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
